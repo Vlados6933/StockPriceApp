@@ -1,71 +1,96 @@
 ﻿using Microsoft.Extensions.Configuration;
 using ServiceContracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace Service
+
+namespace Services
 {
     public class FinnhubService : IFinnhubService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
-        public FinnhubService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+
+
+        public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _configuration = configuration;
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
-        public async Task<Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
+
+
+        public Dictionary<string, object>? GetCompanyProfile(string stockSymbol)
         {
-            using (HttpClient httpClient = _httpClientFactory.CreateClient())
+            //create http client
+            HttpClient httpClient = _httpClientFactory.CreateClient();
+
+            //create http request
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
             {
-                HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSymbol}&token={_configuration["FinnhubToken"]}")
-                };
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://finnhub.io/api/v1/stock/profile2?symbol={stockSymbol}&token={_configuration["FinnhubToken"]}") //URI includes the secret token
+            };
 
-                HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
+            //send request
+            HttpResponseMessage httpResponseMessage = httpClient.Send(httpRequestMessage);
 
-                Stream stream = await httpResponseMessage.Content.ReadAsStreamAsync();
-                StreamReader streamReader = new StreamReader(stream);
+            //read response body
+            string responseBody = new StreamReader(httpResponseMessage.Content.ReadAsStream()).ReadToEnd();
 
-                string response = await streamReader.ReadToEndAsync();
+            //convert response body (from JSON into Dictionary)
+            Dictionary<string, object>? responseDictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(responseBody);
 
-                Dictionary<string, object>? responseDictionary = JsonSerializer.Deserialize<Dictionary<string, object>?>(response);
+            if (responseDictionary == null)
+                throw new InvalidOperationException("No response from server");
 
-                if(responseDictionary == null)
-                    throw new InvalidOperationException("No response from finhub server");
+            if (responseDictionary.ContainsKey("error"))
+                throw new InvalidOperationException(Convert.ToString(responseDictionary["error"]));
 
-                if (responseDictionary.ContainsKey("error"))
-                    throw new InvalidOperationException(Convert.ToString(responseDictionary["error"]));
-
-                return responseDictionary;          
-            }
+            //return response dictionary back to the caller
+            return responseDictionary;
         }
 
-        public async Task<Dictionary<string, object>?> GetCompanyProfile(string stockSymbol)
+
+        public Dictionary<string, object>? GetStockPriceQuote(string stockSymbol)
         {
-            using(HttpClient httpClient = _httpClientFactory.CreateClient())
+            //create http client
+            HttpClient httpClient = _httpClientFactory.CreateClient();
+
+            //create http request
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
             {
-                HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
-                {
-                    RequestUri = new Uri($"https://finnhub.io/api/v1/stock/profile2?symbol={stockSymbol}&token={_configuration["FinnhubToken"]}")
-                };
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSymbol}&token={_configuration["FinnhubToken"]}") //URI includes the secret token
+            };
 
-                HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
+            //send request
+            HttpResponseMessage httpResponseMessage = httpClient.Send(httpRequestMessage);
 
-                Stream stream = await httpResponseMessage.Content.ReadAsStreamAsync();
-                StreamReader streamReader = new StreamReader(stream);
-                string response = await streamReader.ReadToEndAsync();
+            //read response body
+            string responseBody = new StreamReader(httpResponseMessage.Content.ReadAsStream()).ReadToEnd();
 
-                Dictionary<string, object>? responseDictionary = JsonSerializer.Deserialize <Dictionary<string, object>>(response);
+            //convert response body (from JSON into Dictionary)
+            Dictionary<string, object>? responseDictionary = JsonSerializer.Deserialize<Dictionary<string, object>>(responseBody);
 
-                if (responseDictionary == null) 
-                    throw new InvalidOperationException("No response from finhub server");
+            if (responseDictionary == null)
+                throw new InvalidOperationException("No response from server");
 
-                if (responseDictionary.ContainsKey("error")) throw new InvalidOperationException(Convert.ToString(responseDictionary["error"]));
+            if (responseDictionary.ContainsKey("error"))
+                throw new InvalidOperationException(Convert.ToString(responseDictionary["error"]));
 
-                return responseDictionary;
-            }
+            //return response dictionary back to the caller
+            return responseDictionary;
         }
-
     }
 }
+
+/*
+User Secrets:
+dotnet user-secrets init --project StockMarketSolution
+dotnet user-secrets set "FinnhubToken" "cc676uaad3i9rj8tb1s0" --project StockMarketSolution
+*/
