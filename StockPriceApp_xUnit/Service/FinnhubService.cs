@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Entities;
+using Microsoft.Extensions.Configuration;
 using ServiceContracts;
 using System;
 using System.Collections.Generic;

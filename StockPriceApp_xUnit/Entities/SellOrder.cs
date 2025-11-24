@@ -4,9 +4,13 @@ namespace Entities
 {
     public class SellOrder
     {
+        [Key]
         public Guid SellOrderID { get; set; }
+        [Required]
+        [StringLength(10)]
         public string? StockSymbol { get; set; }
         [Required(ErrorMessage = "Stock Name can't be null or empty")]
+        [StringLength(60)]
         public string? StockName { get; set; }
         public DateTime DateAndTimeOfOrder { get; set; }
         [Range(1, 100000, ErrorMessage = "You can buy maximum of 100000 shares in single order. Minimum is 1.")]

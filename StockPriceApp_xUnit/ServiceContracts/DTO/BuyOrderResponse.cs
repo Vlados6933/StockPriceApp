@@ -1,9 +1,13 @@
 ﻿using Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceContracts.DTO
 {
-    public class BuyOrderResponse
+    /// <summary>
+    /// DTO class that represents a buy order to purchase the stocks - that can be used as return type of Stocks service
+    /// </summary>
+    public class BuyOrderResponse : IOrderResponse
     {
         /// <summary>
         /// The unique ID of the buy order
@@ -14,14 +18,14 @@ namespace ServiceContracts.DTO
         /// <summary>
         /// The unique symbol of the stock
         /// </summary>
-        public string? StockSymbol { get; set; }
+        public string StockSymbol { get; set; }
 
 
         /// <summary>
         /// The company name of the stock
         /// </summary>
         [Required(ErrorMessage = "Stock Name can't be null or empty")]
-        public string? StockName { get; set; }
+        public string StockName { get; set; }
 
 
         /// <summary>
@@ -40,6 +44,9 @@ namespace ServiceContracts.DTO
         /// The price of each stock (share)
         /// </summary>
         public double Price { get; set; }
+
+
+        public OrderType TypeOfOrder => OrderType.BuyOrder;
 
         public double TradeAmount { get; set; }
 
@@ -64,7 +71,7 @@ namespace ServiceContracts.DTO
         /// <returns>unique int value</returns>
         public override int GetHashCode()
         {
-            return StockSymbol!.GetHashCode();
+            return StockSymbol.GetHashCode();
         }
 
         /// <summary>
@@ -87,7 +94,7 @@ namespace ServiceContracts.DTO
         /// <returns>Returns the converted BuyOrderResponse object</returns>
         public static BuyOrderResponse ToBuyOrderResponse(this BuyOrder buyOrder)
         {
-            return new BuyOrderResponse() { BuyOrderID = buyOrder.BuyOrderID, StockSymbol = buyOrder.StockSymbol!, StockName = buyOrder.StockName!, Price = buyOrder.Price, DateAndTimeOfOrder = buyOrder.DateAndTimeOfOrder, Quantity = buyOrder.Quantity, TradeAmount = buyOrder.Price * buyOrder.Quantity };
+            return new BuyOrderResponse() { BuyOrderID = buyOrder.BuyOrderID, StockSymbol = buyOrder.StockSymbol, StockName = buyOrder.StockName, Price = buyOrder.Price, DateAndTimeOfOrder = buyOrder.DateAndTimeOfOrder, Quantity = buyOrder.Quantity, TradeAmount = buyOrder.Price * buyOrder.Quantity };
         }
     }
 }

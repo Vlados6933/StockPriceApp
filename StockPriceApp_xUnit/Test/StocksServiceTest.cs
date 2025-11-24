@@ -1,6 +1,9 @@
-﻿using Service;
+﻿using Services;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using Microsoft.EntityFrameworkCore;
+using Entities;
+using System.Threading.Tasks;
 
 namespace Test
 {
@@ -10,24 +13,24 @@ namespace Test
 
         public StocksServiceTest()
         {
-            _stocksService = new StocksService();
+            _stocksService = new StocksService(new StockMarketDbContext(new DbContextOptionsBuilder<StockMarketDbContext>().Options));
         }
 
         #region CreateBuyOrder
 
         [Fact]
-        public void CreateBuyOrder_BuyOrderRequestIsNull()
+        public async Task CreateBuyOrder_BuyOrderRequestIsNull()
         {
             BuyOrderRequest? request = null;
 
-            Assert.Throws<ArgumentNullException>(() =>
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+                await _stocksService.CreateBuyOrder(request);
             });
         }
 
         [Fact]
-        public void CreateBuyOrder_BuyOrderQuantityIsZero()
+        public async Task CreateBuyOrder_BuyOrderQuantityIsZero()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -38,14 +41,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+                await _stocksService.CreateBuyOrder(request);
             });
         }
 
         [Fact]
-        public void CreateBuyOrder_BuyOrderQuantityIsOutOfRange()
+        public async Task CreateBuyOrder_BuyOrderQuantityIsOutOfRange()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -56,14 +59,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+               await _stocksService.CreateBuyOrder(request);
             });
         }
 
         [Fact]
-        public void CreateBuyOrder_BuyOrderPriceIsZero()
+        public async Task CreateBuyOrder_BuyOrderPriceIsZero()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -74,15 +77,15 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+              await  _stocksService.CreateBuyOrder(request);
             });
         }
 
 
         [Fact]
-        public void CreateBuyOrder_BuyOrderPriceIsOutOfRange()
+        public async Task CreateBuyOrder_BuyOrderPriceIsOutOfRange()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -93,14 +96,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+               await _stocksService.CreateBuyOrder(request);
             });
         }
 
         [Fact]
-        public void CreateBuyOrder_StockSymbolISNull()
+        public async Task CreateBuyOrder_StockSymbolISNull()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -111,14 +114,14 @@ namespace Test
                 StockSymbol = null
             };
 
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+               await _stocksService.CreateBuyOrder(request);
             });
         }
 
         [Fact]
-        public void CreateBuyOrder_DateAndTimeOfOrderIsOutOfRange()
+        public async Task CreateBuyOrder_DateAndTimeOfOrderIsOutOfRange()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -129,14 +132,14 @@ namespace Test
                 StockSymbol = "dffds"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateBuyOrder(request);
+              await  _stocksService.CreateBuyOrder(request);
             });
         }
 
         [Fact]
-        public void CreateBuyOrder_ProperDetails()
+        public async Task CreateBuyOrder_ProperDetails()
         {
             BuyOrderRequest? request = new BuyOrderRequest()
             {
@@ -147,7 +150,7 @@ namespace Test
                 StockSymbol = "MSFT"
             };
 
-            BuyOrderResponse buy_order_response = _stocksService.CreateBuyOrder(request);
+            BuyOrderResponse buy_order_response = await _stocksService.CreateBuyOrder(request);
 
             Assert.True(buy_order_response.BuyOrderID != Guid.Empty);
         }
@@ -157,18 +160,18 @@ namespace Test
         #region CreateSellOrder
 
         [Fact]
-        public void CreateSellOrder_SellOrderRequestIsNull()
+        public async Task CreateSellOrder_SellOrderRequestIsNull()
         {
             SellOrderRequest? request = null;
 
-            Assert.Throws<ArgumentNullException>(() =>
+           await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+              await  _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_SellOrderQuantityIsZero()
+        public async Task CreateSellOrder_SellOrderQuantityIsZero()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -179,14 +182,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+               await _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_SellOrderQuantityIsOutOfRange()
+        public async Task CreateSellOrder_SellOrderQuantityIsOutOfRange()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -197,14 +200,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+              await  _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_SellOrderPriceIsZero()
+        public async Task CreateSellOrder_SellOrderPriceIsZero()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -215,14 +218,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+              await  _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_SellOrderPriceIsOutOfRange()
+        public async Task CreateSellOrder_SellOrderPriceIsOutOfRange()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -233,14 +236,14 @@ namespace Test
                 StockSymbol = "fdsf"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+               await _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_StockSymbolISNull()
+        public async Task CreateSellOrder_StockSymbolISNull()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -251,14 +254,14 @@ namespace Test
                 StockSymbol = null
             };
 
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+               await _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_DateAndTimeOfOrderIsOutOfRange()
+        public async Task CreateSellOrder_DateAndTimeOfOrderIsOutOfRange()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -269,14 +272,14 @@ namespace Test
                 StockSymbol = "dffds"
             };
 
-            Assert.Throws<ArgumentException>(() =>
+           await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                _stocksService.CreateSellOrder(request);
+             await   _stocksService.CreateSellOrder(request);
             });
         }
 
         [Fact]
-        public void CreateSellOrder_ProperDetails()
+        public async Task CreateSellOrder_ProperDetails()
         {
             SellOrderRequest? request = new SellOrderRequest()
             {
@@ -287,7 +290,7 @@ namespace Test
                 StockSymbol = "MSFT"
             };
 
-            SellOrderResponse sell_order_response = _stocksService.CreateSellOrder(request);
+            SellOrderResponse sell_order_response = await _stocksService.CreateSellOrder(request);
 
             Assert.True(sell_order_response.SellOrderID != Guid.Empty);
         }
@@ -297,17 +300,17 @@ namespace Test
         #region GetBuyOrders
 
         [Fact]
-        public void GetBuyOrders_EmptyList()
+        public async Task GetBuyOrders_EmptyList()
         {
             BuyOrderRequest? request = new BuyOrderRequest();
 
-            List<BuyOrderResponse> buyOrderResponses = _stocksService.GetBuyOrders();
+            List<BuyOrderResponse> buyOrderResponses = await _stocksService.GetBuyOrders();
 
             Assert.Empty(buyOrderResponses);
         }
 
         [Fact]
-        public void GetBuyOrders_AddFewBuyOrders()
+        public async Task GetBuyOrders_AddFewBuyOrders()
         {
             BuyOrderRequest? request1 = new BuyOrderRequest()
             {
@@ -342,10 +345,10 @@ namespace Test
 
             foreach (var request in buy_order_responses_list)
             {
-                buy_order_responses_from_add.Add(_stocksService.CreateBuyOrder(request));
+                buy_order_responses_from_add.Add(await _stocksService.CreateBuyOrder(request));
             }
 
-            List<BuyOrderResponse> actual_buy_order_response = _stocksService.GetBuyOrders();
+            List<BuyOrderResponse> actual_buy_order_response = await _stocksService.GetBuyOrders();
 
             foreach (var expected_buy_order in buy_order_responses_from_add)
             {
@@ -358,17 +361,17 @@ namespace Test
         #region GetSellOrders
 
         [Fact]
-        public void GetSellOrders_EmptyList()
+        public async Task GetSellOrders_EmptyList()
         {
             SellOrderRequest? request = new SellOrderRequest();
 
-            List<SellOrderResponse> sellOrderResponses = _stocksService.GetSellOrders();
+            List<SellOrderResponse> sellOrderResponses = await _stocksService.GetSellOrders();
 
             Assert.Empty(sellOrderResponses);
         }
 
         [Fact]
-        public void GetSellOrders_AddFewSellOrders()
+        public async Task GetSellOrders_AddFewSellOrders()
         {
             SellOrderRequest? request1 = new SellOrderRequest()
             {
@@ -403,10 +406,10 @@ namespace Test
 
             foreach (var request in sell_order_responses_list)
             {
-                sell_order_responses_from_add.Add(_stocksService.CreateSellOrder(request));
+                sell_order_responses_from_add.Add(await _stocksService.CreateSellOrder(request));
             }
 
-            List<SellOrderResponse> actual_sell_order_response = _stocksService.GetSellOrders();
+            List<SellOrderResponse> actual_sell_order_response = await _stocksService.GetSellOrders();
 
             foreach (var expected_sell_order in sell_order_responses_from_add)
             {
