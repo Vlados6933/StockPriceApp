@@ -1,5 +1,4 @@
-﻿
-namespace ServiceContracts.DTO
+﻿namespace ServiceContracts.DTO
 {
     public interface IOrderResponse
     {
