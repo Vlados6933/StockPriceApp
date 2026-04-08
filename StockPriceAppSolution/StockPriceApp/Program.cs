@@ -6,7 +6,7 @@ using Serilog;
 using ServiceContracts;
 using Services;
 
-namespace StockPriceApp_xUnit
+namespace StockPriceApp
 {
     public class Program
     {

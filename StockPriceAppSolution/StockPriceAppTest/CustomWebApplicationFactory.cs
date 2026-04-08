@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using StockPriceApp_xUnit;
+using StockPriceApp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;

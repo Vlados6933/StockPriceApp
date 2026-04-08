@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using ServiceContracts;
-using StockPriceApp_xUnit;
-using StockPriceApp_xUnit.Controllers;
-using StockPriceApp_xUnit.Models;
+using StockPriceApp;
+using StockPriceApp.Controllers;
+using StockPriceApp.Models;
 
 
 namespace Tests

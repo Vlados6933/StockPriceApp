@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11612.150 stable
+VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPriceApp_xUnit", "StockPriceApp_xUnit\StockPriceApp_xUnit.csproj", "{388F24E3-AFD9-4C0D-A2EC-8389850494FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPriceApp", "StockPriceApp\StockPriceApp.csproj", "{388F24E3-AFD9-4C0D-A2EC-8389850494FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{95DE3BD9-A587-35A9-17E0-3C34D2A57441}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContracts", "Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Service\Services.csproj", "{02B79BC5-153E-2FD9-CAE3-8149E0D9044F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AB2F4C7F-BC97-4BFE-9838-D5152C12EB25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockPriceAppTest", "StockPriceAppTest\StockPriceAppTest.csproj", "{AB2F4C7F-BC97-4BFE-9838-D5152C12EB25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{1977E5D8-AD11-4AED-AD43-F448AE8379D7}"
 EndProject

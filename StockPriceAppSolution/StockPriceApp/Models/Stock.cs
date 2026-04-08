@@ -1,4 +1,4 @@
-﻿namespace StockPriceApp_xUnit.Models
+﻿namespace StockPriceApp.Models
 {
     public class Stock
     {

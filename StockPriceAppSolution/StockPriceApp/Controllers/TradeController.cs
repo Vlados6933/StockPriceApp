@@ -3,10 +3,10 @@ using Microsoft.Extensions.Options;
 using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
-using StockPriceApp_xUnit.Models;
+using StockPriceApp.Models;
 using System.Globalization;
 
-namespace StockPriceApp_xUnit.Controllers
+namespace StockPriceApp.Controllers
 {
     [Route("[controller]")]
     public class TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration, ILogger<TradeController> logger) : Controller

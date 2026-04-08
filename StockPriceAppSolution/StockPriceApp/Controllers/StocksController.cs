@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ServiceContracts;
-using StockPriceApp_xUnit.Models;
+using StockPriceApp.Models;
 
 
-namespace StockPriceApp_xUnit.Controllers
+namespace StockPriceApp.Controllers
 {
     [Route("[controller]")]
     public class StocksController(IOptions<TradingOptions> tradingOptions, IFinnhubService finnhubService, ILogger<StocksController> logger) : Controller

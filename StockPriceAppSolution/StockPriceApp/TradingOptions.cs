@@ -1,4 +1,4 @@
-﻿namespace StockPriceApp_xUnit
+﻿namespace StockPriceApp
 {
     public class TradingOptions
     {

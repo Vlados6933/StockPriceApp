@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ServiceContracts;
-using StockPriceApp_xUnit;
+using StockPriceApp;
 
-namespace StockPriceApp_xUnit.ViewComponents
+namespace StockPriceApp.ViewComponents
 {
     public class SelectedStockViewComponent(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration) : ViewComponent
     {

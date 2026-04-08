@@ -1,6 +1,6 @@
 ﻿using ServiceContracts.DTO;
 
-namespace StockPriceApp_xUnit.Models
+namespace StockPriceApp.Models
 {
     public class Orders
     {
