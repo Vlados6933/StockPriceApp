@@ -26,7 +26,7 @@ namespace StockPriceApp.Controllers
 
             List<Stock> stocks = new List<Stock>();
 
-            if (stocksDictionary is not null)
+            if (stocksDictionary != null)
             {
                 if (!showAll && _tradingOptions.Top25PopularStocks != null)
                 {
