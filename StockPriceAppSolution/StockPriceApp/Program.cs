@@ -5,6 +5,7 @@ using RepositoryContracts;
 using Serilog;
 using ServiceContracts;
 using Services;
+using StockPriceApp.Middleware;
 
 namespace StockPriceApp
 {
@@ -49,6 +50,11 @@ namespace StockPriceApp
             if (builder.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandlingMiddleware();
             }
 
             if (builder.Environment.IsEnvironment("Test") == false)
