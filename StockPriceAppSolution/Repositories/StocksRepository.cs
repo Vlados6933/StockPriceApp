@@ -12,7 +12,7 @@ namespace Repositories
 
         public async Task<BuyOrder> CreateBuyOrder(BuyOrder buyOrder)
         {
-            _db.BuyOrders.Add(buyOrder);
+            await _db.BuyOrders.AddAsync(buyOrder);
             await _db.SaveChangesAsync();
 
             return buyOrder;
@@ -20,7 +20,7 @@ namespace Repositories
 
         public async Task<SellOrder> CreateSellOrder(SellOrder sellOrder)
         {
-            _db.SellOrders.Add(sellOrder);
+            await _db.SellOrders.AddAsync(sellOrder);
             await _db.SaveChangesAsync();
 
             return sellOrder;
@@ -30,6 +30,7 @@ namespace Repositories
         public async Task<List<BuyOrder>> GetBuyOrders()
         {
             List<BuyOrder> buyOrders = await _db.BuyOrders
+             .AsNoTracking()
              .OrderByDescending(temp => temp.DateAndTimeOfOrder)
              .ToListAsync();
 
@@ -40,8 +41,9 @@ namespace Repositories
         public async Task<List<SellOrder>> GetSellOrders()
         {
             List<SellOrder> sellOrders = await _db.SellOrders
-             .OrderByDescending(temp => temp.DateAndTimeOfOrder)
-             .ToListAsync();
+            .AsNoTracking()
+            .OrderByDescending(temp => temp.DateAndTimeOfOrder)
+            .ToListAsync();
 
             return sellOrders;
         }
